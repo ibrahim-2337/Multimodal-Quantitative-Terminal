@@ -1,0 +1,8 @@
+.env
+*.log
+*.db*
+venv/
+__pycache__/
+.DS_Store
+Ibrahim_Ahmad_resume_march*.pdf
+nohup.out
