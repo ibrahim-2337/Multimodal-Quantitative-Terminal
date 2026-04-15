@@ -1,28 +1,28 @@
-# Multimodal Quantitative Intelligence Terminal
+# Multimodal Quantitative Terminal
 
-An autonomous multimodal intelligence pipeline that integrates live blockchain events (On-Chain) with technical action (Off-Chain) to synthesize high-alpha trading signals for 19+ crypto assets.
+An automated quantitative pipeline that integrates live blockchain events (On-Chain) with technical analysis (Off-Chain) to generate trading signals for 19+ crypto assets.
 
 ## 🚀 Features
 
 *   **High-Throughput Data Pipeline:** Real-time ingestion and normalization of Ethereum blockchain events using `web3.py` and Alchemy RPC.
-*   **Triple Convergence Signal Engine:** Synthesizes on-chain "Whale" anomalies ($1,000+ Exchange Inflows/Outflows) with off-chain Technical Analysis (Bollinger Band breakouts and RSI extremes).
-*   **Live Backtesting Framework:** Automated snapshots of entry prices with real-time Win/Loss ratio and ROI calculation over a rolling 15-minute window.
-*   **Bloomberg-Style Terminal UI:** Custom Streamlit dashboard with Matrix-dark aesthetics, live KPI cards, and color-coded signal feeds.
-*   **High Concurrency Storage:** SQLite WAL (Write-Ahead Logging) implementation for simultaneous multi-process ingestion and analysis.
+*   **Triple Convergence Signal Engine:** Combines on-chain "Whale" anomalies (large exchange inflows/outflows) with technical analysis (Bollinger Band breakouts and RSI extremes).
+*   **Live Validation Framework:** Automated snapshots of entry prices with real-time Win/Loss ratio and ROI calculation over a rolling 15-minute window.
+*   **Terminal UI:** Custom Streamlit dashboard with dark aesthetics, live metrics cards, and color-coded signal feeds.
+*   **High Concurrency Storage:** SQLite WAL (Write-Ahead Logging) implementation for simultaneous multi-process data handling and analysis.
 
 ## 🛠️ Tech Stack
 
 *   **Language:** Python 3.13
 *   **Blockchain:** Web3.py, Alchemy RPC
 *   **Quantitative Finance:** CCXT (Binance API), Pandas-TA
-*   **Machine Learning:** Scikit-Learn (Isolation Forest)
+*   **Analysis:** Scikit-Learn (Anomaly Detection)
 *   **Database:** SQLite (WAL Mode)
 *   **Dashboard:** Streamlit, Plotly
 
 ## 🏹 "Triple Convergence" Logic
 
-To maintain high precision and reduce noise, the engine requires three concurrent signals:
-1.  **Whale Anchor (On-Chain):** Recent exchange inflow/outflow detected for the specific asset.
+To maintain precision and reduce noise, the engine requires three concurrent signals:
+1.  **Whale Anchor (On-Chain):** Recent significant exchange inflow/outflow detected for the specific asset.
 2.  **Bollinger Stretch (Volatility):** Price touching or exceeding standard deviation bands.
 3.  **RSI Extremes (Momentum):** Relative Strength Index below 35 (Oversold) or above 65 (Overbought).
 

@@ -37,7 +37,7 @@ def load_data():
 # --- HEADER ---
 c_head1, c_head2 = st.columns([3, 1])
 with c_head1:
-    st.title("🏹 CRYPTO ALPHA INTELLIGENCE")
+    st.title("🏹 CRYPTO QUANT TERMINAL")
     st.markdown("`MULTIMODAL QUANT ENGINE | LIVE FEED`")
 with c_head2:
     st.markdown(f"**STATUS:** 🟢 ONLINE")
@@ -57,11 +57,11 @@ if not df_t.empty:
     if not df_s.empty:
         finished = df_s[df_s['status'] != 'PENDING']
         wr = (len(finished[finished['status'] == 'WIN']) / len(finished) * 100) if len(finished) > 0 else 0
-        m2.metric("AI WIN RATE", f"{wr:.1f}%")
+        m2.metric("SIGNAL WIN RATE", f"{wr:.1f}%")
         m3.metric("TOTAL SIGNALS", len(df_s))
         m4.metric("PENDING BACKTESTS", len(df_s[df_s['status'] == 'PENDING']))
     else:
-        m2.metric("AI WIN RATE", "0.0%")
+        m2.metric("SIGNAL WIN RATE", "0.0%")
         m3.metric("TOTAL SIGNALS", "0")
         m4.metric("PENDING BACKTESTS", "0")
 
@@ -71,7 +71,7 @@ if not df_t.empty:
     col_left, col_right = st.columns([2, 1])
 
     with col_left:
-        st.markdown("### 🤖 AI SIGNAL TERMINAL")
+        st.markdown("### 🤖 SIGNAL TERMINAL")
         if not df_s.empty:
             def style_status(val):
                 if val == 'WIN': return 'color: #00FF41; font-weight: bold'
