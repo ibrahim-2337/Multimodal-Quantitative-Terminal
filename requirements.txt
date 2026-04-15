@@ -1,0 +1,15 @@
+torch
+torchvision
+numpy
+matplotlib
+web3
+aiohttp
+python-dotenv
+ccxt
+pandas
+pandas-ta
+streamlit
+plotly
+scikit-learn
+duckdb
+websockets
