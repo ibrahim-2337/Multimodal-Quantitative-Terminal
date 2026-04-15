@@ -1,10 +1,9 @@
 import streamlit as st
-import sqlite3
 import pandas as pd
 import plotly.express as px
 import time
+from database import get_db_connection
 
-# --- TERMINAL STYLE CONFIG ---
 st.set_page_config(page_title="CRYPTO ALPHA | TERMINAL", layout="wide", initial_sidebar_state="collapsed")
 
 # Custom CSS for Bloomberg-style Terminal
@@ -20,14 +19,20 @@ st.markdown("""
 
 def load_data():
     try:
-        conn = sqlite3.connect('whale_tracker.db', timeout=10)
+        conn = get_db_connection()
         df_transfers = pd.read_sql_query("SELECT * FROM transfers", conn)
         df_signals = pd.read_sql_query("SELECT * FROM ai_signals", conn)
         conn.close()
-        df_transfers['timestamp'] = pd.to_datetime(df_transfers['timestamp'])
-        df_signals['timestamp'] = pd.to_datetime(df_signals['timestamp'])
+        
+        if not df_transfers.empty:
+            df_transfers['timestamp'] = pd.to_datetime(df_transfers['timestamp'])
+        if not df_signals.empty:
+            df_signals['timestamp'] = pd.to_datetime(df_signals['timestamp'])
+            
         return df_transfers, df_signals
-    except: return None, None
+    except Exception as e:
+        st.error(f"Error loading data from database: {e}")
+        return pd.DataFrame(), pd.DataFrame()
 
 # --- HEADER ---
 c_head1, c_head2 = st.columns([3, 1])
@@ -41,7 +46,7 @@ with c_head2:
 # --- DATA LOAD ---
 df_t, df_s = load_data()
 
-if df_t is not None and not df_t.empty:
+if not df_t.empty:
     # --- TOP METRICS ---
     st.markdown("### 📊 SYSTEM PERFORMANCE")
     m1, m2, m3, m4 = st.columns(4)

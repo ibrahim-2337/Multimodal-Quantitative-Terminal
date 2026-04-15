@@ -1,30 +1,27 @@
-import duckdb
 import pandas as pd
+from database import get_db_connection
 
 def analyze():
-    # Connect to DuckDB
-    conn = duckdb.connect('whale_tracker.db')
+    conn = get_db_connection()
     
-    # Check total count
     count = conn.execute("SELECT COUNT(*) FROM transfers").fetchone()[0]
     print(f"Total Transactions Captured: {count}")
     
     if count == 0:
         print("No transactions captured yet. Please let the ingestion script run for a bit.")
+        conn.close()
         return
 
-    # Load into Pandas for more analysis
-    df = conn.execute("SELECT * FROM transfers").df()
+    df = pd.read_sql_query("SELECT * FROM transfers", conn)
+    conn.close()
     
     print("\n--- Basic Statistics ---")
-    print(f"Max Transaction: ${df['amount'].max():,.2f}")
-    print(f"Mean Transaction: ${df['amount'].mean():,.2f}")
+    print(f"Max Transaction: ${df['amount_usd'].max():,.2f}")
+    print(f"Mean Transaction: ${df['amount_usd'].mean():,.2f}")
     
-    # Identify top tokens
     print("\n--- Transactions by Token ---")
     print(df['token_name'].value_counts())
 
-    # Show last 5 transactions
     print("\n--- Most Recent Transfers ---")
     print(df.tail(5))
 
