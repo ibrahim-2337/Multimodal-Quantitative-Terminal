@@ -1,50 +1,35 @@
 # Multimodal Quantitative Terminal
 
-An automated quantitative pipeline that integrates live blockchain events (On-Chain) with technical analysis (Off-Chain) to generate trading signals for 19+ crypto assets.
+A real-time trading terminal that correlates on-chain "whale" moves with technical price action. It monitors Ethereum events and Binance markets to find high-conviction entries across 19+ crypto assets.
 
-## 🚀 Features
+## Core Features
+*   **Whale Tracking**: Ingests live Ethereum events via `web3.py` and Alchemy to find large-scale inflows and outflows.
+*   **Signal Engine**: Combines on-chain anomalies with technical indicators (Bollinger Bands, RSI) to generate trades.
+*   **Live Dashboard**: A Streamlit-based UI for real-time monitoring of signals, whale movements, and backtest results.
+*   **Backtesting**: Automatically tracks entry prices and calculates a rolling Win/Loss ratio over 15-minute windows.
+*   **WAL Storage**: Uses SQLite in Write-Ahead Logging mode for safe, simultaneous data ingestion and dashboard reading.
 
-*   **High-Throughput Data Pipeline:** Real-time ingestion and normalization of Ethereum blockchain events using `web3.py` and Alchemy RPC.
-*   **Triple Convergence Signal Engine:** Combines on-chain "Whale" anomalies (large exchange inflows/outflows) with technical analysis (Bollinger Band breakouts and RSI extremes).
-*   **Live Validation Framework:** Automated snapshots of entry prices with real-time Win/Loss ratio and ROI calculation over a rolling 15-minute window.
-*   **Terminal UI:** Custom Streamlit dashboard with dark aesthetics, live metrics cards, and color-coded signal feeds.
-*   **High Concurrency Storage:** SQLite WAL (Write-Ahead Logging) implementation for simultaneous multi-process data handling and analysis.
+## The Signal Logic
+To reduce noise, the terminal only fires a signal if three things align:
+1.  **Whale Move**: Significant on-chain transfer detected within the last 15 minutes.
+2.  **Bollinger Stretch**: Price is touching or breaking outside the 2-std bands.
+3.  **RSI Extreme**: Relative Strength Index is <35 (Oversold) or >65 (Overbought).
 
-## 🛠️ Tech Stack
-
-*   **Language:** Python 3.13
-*   **Blockchain:** Web3.py, Alchemy RPC
-*   **Quantitative Finance:** CCXT (Binance API), Pandas-TA
-*   **Analysis:** Scikit-Learn (Anomaly Detection)
-*   **Database:** SQLite (WAL Mode)
-*   **Dashboard:** Streamlit, Plotly
-
-## 🏹 "Triple Convergence" Logic
-
-To maintain precision and reduce noise, the engine requires three concurrent signals:
-1.  **Whale Anchor (On-Chain):** Recent significant exchange inflow/outflow detected for the specific asset.
-2.  **Bollinger Stretch (Volatility):** Price touching or exceeding standard deviation bands.
-3.  **RSI Extremes (Momentum):** Relative Strength Index below 35 (Oversold) or above 65 (Overbought).
-
-## 📊 Backtesting Metrics
-
-The terminal automatically validates its own performance. A "WIN" is defined as a price move of >0.1% in the predicted direction within 15 minutes of the signal generation.
-
-## ⚙️ Setup & Installation
-
-1.  **Clone the repo:**
+## How to Run
+1.  **Setup**:
     ```bash
-    git clone https://github.com/ibrahim-2337/crypto-alpha-terminal.git
-    cd crypto-alpha-terminal
+    git clone https://github.com/ibrahim-2337/Multimodal-Quantitative-Terminal.git
+    cd Multimodal-Quantitative-Terminal
     ```
-2.  **Environment Variables:** Create a `.env` file with your Alchemy URL:
-    ```
-    ALCHEMY_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_API_KEY
-    ```
-3.  **Run the Terminal:**
+2.  **Keys**: Create a `.env` file with your `ALCHEMY_URL`.
+3.  **Start Terminal**:
     ```bash
     bash start_trading_terminal.sh
     ```
+
+## Notes
+- **WebSockets**: The engine uses Binance's public WebSocket feeds for 1-second price ticks.
+- **Statistical Whales**: Thresholds for "Whale" moves are calculated dynamically using a 2-std deviation from the mean per token, rather than a hardcoded dollar amount.
 
 ---
 *Developed by Ibrahim Ahmad | NYU Abu Dhabi*
